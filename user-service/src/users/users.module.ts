@@ -19,6 +19,7 @@ import { MongooseUserRepository } from "./repositories/mongoose-user.repository"
         }
     ],
     controllers: [UsersController], // Assuming you have a UsersController to handle routes
+    exports: [UsersService],
 })
 
 export class UserModule { }
