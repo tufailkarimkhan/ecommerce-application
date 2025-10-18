@@ -21,7 +21,7 @@ export class CreateUserDto{
 
     @IsNotEmpty()
     @MinLength(6)
-    readonly password: string;
+    password: string;
 
     readonly createdAt?: Date;
     readonly updatedAt?: Date;

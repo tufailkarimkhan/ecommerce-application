@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { IUser } from "./interfaces/user.interface";
+import { AuthGuard } from "@nestjs/passport";
 import { get } from "http";
 @Controller('users')
 export class UsersController{
@@ -12,7 +13,8 @@ export class UsersController{
         return this.userService.create(createUserDto);
     }
 
-    @Get()
+    @UseGuards(AuthGuard('jwt'))
+    @Get("GetAll")
     getAllUsers():Promise<IUser[]>{
         return this.userService.findAll();
     }

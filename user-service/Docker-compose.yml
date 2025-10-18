@@ -5,12 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: tufailkarim/ecommerce-user-service:latest
     container_name: user-service
     restart: always
     ports:
       - "3000:3000"
     environment:
       - MONGO_URI=mongodb://user-mongo:27017/userdb
+      - JWT_SECRET=mySuperSecretKey
+      - jwt_expires_in=3600
     depends_on:
       - user-mongo
 
