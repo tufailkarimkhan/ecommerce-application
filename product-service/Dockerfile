@@ -1,23 +1,34 @@
-#Use NOde.js official LTS image
-FROM node:20-alpine
+# --- STAGE 1: Build ---
+FROM node:20-alpine AS builder
 
-#Set the working directory
-WORKDIR /product/src/app
+WORKDIR /app
 
-#Copy package.json and package-lock.json
+# Copy package files and install ALL dependencies (including typescript)
 COPY package*.json ./
-
-#Install dependencies
 RUN npm install --legacy-peer-deps
 
-#Copy the rest of the application code
+# Copy source code and build the project
 COPY . .
+RUN npm run build
 
-#Build NestJS (TS to JS)
-#RUN npm run build
+# --- STAGE 2: Run ---
+FROM node:20-alpine AS runner
 
-#Expose the application port
+WORKDIR /app
+
+# Copy only the production dependencies (to keep image small)
+COPY package*.json ./
+RUN npm install --production --legacy-peer-deps
+
+# Copy the compiled code from the builder stage
+COPY --from=builder /app/dist ./dist
+# Copy your .env file (if needed inside container)
+COPY .dev.env ./
+
+# Install wait-port for DB readiness
+RUN npm install -g wait-port
+
 EXPOSE 8080
 
-#Start the application
-CMD ["npm", "run", "dev"]
+# Start the application using the compiled JavaScript
+CMD wait-port -t 60000 db:3306 && npm start

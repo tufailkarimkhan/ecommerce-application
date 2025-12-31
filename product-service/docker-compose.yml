@@ -5,19 +5,14 @@ services:
       dockerfile: Dockerfile
     image: tufailkarim/ecommerce-product-service:latest
     container_name: product-service
+    restart: always
     env_file:
       - ./.dev.env
-    restart: always
-    ports:
-      - "${PORT}:8080"
-    environment:
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
     depends_on:
-      - db
+       db:
+         condition: service_healthy
+    ports:
+      - "8080:8080"
     networks:
       - app-network
 
@@ -27,17 +22,17 @@ services:
     env_file:
       - ./.dev.env
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 networks:
   app-network:

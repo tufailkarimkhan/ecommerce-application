@@ -1,6 +1,6 @@
 import fs from "fs";
 import pdf_parse from "pdf-parse";
-import { IPdfDetails } from "../../interface/product.interface";
+//import { IPdfDetails } from "../../interface/product.interface";
 import Server from "../../server";
 
 export default class ParcePDF {

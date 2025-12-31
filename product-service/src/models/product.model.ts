@@ -31,5 +31,5 @@ export default class ProductDetails extends Model<IProductDetails> implements IP
     price!: number;
 
     @Column({ type: DataType.STRING, allowNull: true })
-    image_url!: string;
+    image_url?: string;
 }

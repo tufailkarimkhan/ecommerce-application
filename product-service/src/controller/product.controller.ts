@@ -8,7 +8,7 @@ export default class ProductController {
             const createdProduct = await ProductServices.create(productDetails);
             res.status(201).json(createdProduct);
         } catch (error: any) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: error});
         }
     }
 }

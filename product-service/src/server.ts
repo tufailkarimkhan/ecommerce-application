@@ -1,8 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config({path: '.dev.env'});
+
 import express, { Application,Request,Response } from 'express';
 import routers from './routes/Index.routes';
-import sequelize from '../config/Db.config';
-import dotenv from 'dotenv';
-dotenv.config({path: '../../.dev.env'});
+import sequelize from './config/Db.config';
 import { GoogleGenAI } from "@google/genai";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
@@ -45,6 +46,8 @@ export default class Server {
 
         this.app.listen(this.PORT, () => {
             console.log(`Server is running at http://localhost:${this.PORT}`);
+           // console.log(`Environment: ${process.env.DB_NAME} \n process.env.PORT: ${process.env.PORT}`);
+           
         });
         sequelize.sync({alter: true})
             .then(() => {
