@@ -21,6 +21,7 @@ export class UsersService{
     }
 
     async findAll(): Promise<IUser[]> {
+        console.log("Fetching all users from user-service - service layer");
         return this.userRepository.findAll();
     }   
 

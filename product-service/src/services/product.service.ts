@@ -11,4 +11,33 @@ export default  class ProductServices {
         
     }
 
+    static async getAll(): Promise<IProductDetails[]> {
+        const products = await ProductDetails.findAll();
+        return products;
+    }
+
+    static async getById(id: string): Promise<IProductDetails | null> {
+        const product = await ProductDetails.findByPk(id);
+        return product;
+    }
+
+    static async update(id: string, product_details: IProductDetails): Promise<IProductDetails | null> {
+        const product = await ProductDetails.findByPk(id);
+        if (product) {
+            await product.update(product_details);
+            return product;
+        }
+        return null;
+    }
+
+    static async delete(id: string): Promise<IProductDetails | null> {
+        const product = await ProductDetails.findByPk(id);
+        if (product) {
+            console.log("Deleting product:", product);
+            //await product.destroy();
+            return product;
+        }
+        return null;
+    }
+
 }

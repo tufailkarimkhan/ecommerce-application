@@ -35,7 +35,7 @@ export class AuthService {
         if (!isPasswordValid) {
             throw new UnauthorizedException("Invalid email or password");
         }
-        const payload = { sub: user.id, email: user.email };
+        const payload = { sub: user.id, email: user.email, f_name: user.f_name, l_name: user.l_name };
 
         const token = this.jwtService.sign(payload);
         return { message: 'Login successful', token };

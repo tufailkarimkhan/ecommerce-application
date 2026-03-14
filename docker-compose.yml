@@ -1,3 +1,4 @@
 include:
   - ./user-service/docker-compose.yml
   - ./product-service/docker-compose.yml
+  - ./api-gateway/docker-compose.yml

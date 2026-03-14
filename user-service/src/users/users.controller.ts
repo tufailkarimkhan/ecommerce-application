@@ -13,9 +13,10 @@ export class UsersController{
         return this.userService.create(createUserDto);
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    //@UseGuards(AuthGuard('jwt'))
     @Get("GetAll")
     getAllUsers():Promise<IUser[]>{
+        console.log("Fetching all users from user-service - controller layer");
         return this.userService.findAll();
     }
 
