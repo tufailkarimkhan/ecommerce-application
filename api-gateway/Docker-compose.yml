@@ -1,0 +1,10 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tufailkarim/ecommerce-api-gateway:latest
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "3001:3001"
